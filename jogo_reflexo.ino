@@ -8,8 +8,8 @@ int posicaoAtual = 0;
 bool estadoBotaoAnterior = LOW; // Armazena o estado anterior do botão
 int pontuacao = 0; // Pontuação total do jogador
 int pontuacaoMaxima = 0; // Pontuação máxima registrada
-int tentativasRestantes = 5;
-int delayAtual = 300; // Delay inicial mais rápido
+int tentativasRestantes = 10; // Número de fases ajustado para 10
+int delayAtual = 200; // Delay inicial ajustado para uma velocidade mais rápida
 
 // Configuração do display LCD I2C
 LiquidCrystal_I2C lcd(0x27, 16, 2); // Endereço I2C padrão do LCD é 0x27, com dimensões 16x2
@@ -51,9 +51,9 @@ void loop() {
 
         // Espera o botão ser pressionado para reiniciar o jogo
         if (digitalRead(botao) == HIGH && estadoBotaoAnterior == LOW) {
-            tentativasRestantes = 5;
+            tentativasRestantes = 10; // Reinicia com 10 tentativas para o novo jogo
             pontuacao = 0;
-            delayAtual = 300; // Reinicia o delay para 300 ms no novo jogo
+            delayAtual = 200; // Reinicia o delay para 200 ms no novo jogo
             Serial.println("Novo jogo iniciado!");
             delay(200); // debounce
             atualizarDisplay(); // Atualiza o display com a nova pontuação
@@ -108,7 +108,7 @@ void loop() {
 
         // Reduz o delay a cada tentativa para aumentar a velocidade
         if (tentativasRestantes > 0) {
-            delayAtual -= 50; // Diminui o delay em 50 ms para aumentar a velocidade
+            delayAtual -= 20; // Diminui o delay em 20 ms para aumentar a velocidade de forma mais gradual
         }
     }
 
